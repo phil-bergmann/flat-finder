@@ -51,6 +51,8 @@ class Processor:
 
             flats = [f for h in htmls for f in parse_html(config, h)]
 
+            print(f"{config.name}: {len(flats)} flats")
+
             for f in flats:
                 self._send_to_adapter_if_missing(config, f)
 

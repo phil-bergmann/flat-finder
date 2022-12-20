@@ -17,7 +17,23 @@ IMMONET_CONFIG = ProviderConfig(
     name="IMMONET",
     base_url="https://www.immonet.de/",
     downloader=Downloader.SELENIUM,
-    paginate_next_button_selector="""return document.getElementsByClassName("col-sm-3 col-xs-1 pull-right text-right")""",
+    paginate_next_button_selector="""
+        var aTags = document.getElementsByClassName("col-sm-3 col-xs-1 pull-right text-right");
+        
+        if (aTags.length == 0) {
+            return false;
+        }
+        
+        href = aTags[0].href
+        
+        if (!href) {
+            return false;
+        }
+
+        window.location = href;
+        
+        return true;
+        """,
     cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
     headless=False,
     crawl_container='#result-list-stage .item',

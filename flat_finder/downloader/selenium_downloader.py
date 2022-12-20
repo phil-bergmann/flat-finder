@@ -42,7 +42,6 @@ class SeleniumDownloader:
             if not element:
                 break
 
-            element.click()
             time.sleep(5)
             htmls.append(chrome.page_source)
 
