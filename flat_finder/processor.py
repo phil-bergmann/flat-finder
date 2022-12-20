@@ -1,8 +1,11 @@
+import json
+import os
 from datetime import timedelta, datetime
 import time
 from typing import Optional
 from os import path
 
+from flat_finder.adapters import SlackAdapter
 from flat_finder.downloader import SeleniumDownloader
 from flat_finder.parser import parse_html
 from flat_finder.provider import ALL_CONFIGS
@@ -11,9 +14,11 @@ from flat_finder.models import ProviderConfig, Downloader, ParsedFlat, AbstractA
 
 class Processor:
 
-    def __init__(self, urls: [str], adapter: AbstractAdapter):
-        self.urls = urls
-        self.adapter = adapter
+    def __init__(self):
+        self.urls = json.loads(os.environ['URLS'])
+        self.adapter: AbstractAdapter = SlackAdapter()
+
+        self.refresh_every_minutes = int(os.environ['REFRESH_EVERY_MINUTES'])
 
         self.sent_flats = set()
 
@@ -22,11 +27,11 @@ class Processor:
                 for l in in_file.readlines():
                     self.sent_flats.add(l.strip())
 
-    def run(self, refresh_every_minutes: int):
+    def run(self,):
         last_run: Optional[datetime] = None
 
         while True:
-            if last_run is not None and last_run + timedelta(minutes=refresh_every_minutes) > datetime.now():
+            if last_run is not None and last_run + timedelta(minutes=self.refresh_every_minutes) > datetime.now():
                 time.sleep(10)
                 continue
 
@@ -71,13 +76,14 @@ class Processor:
         if flat_id in self.sent_flats:
             return
 
-        self.adapter.send_flat(flat)
+        sent = self.adapter.send_flat(flat)
 
-        self.sent_flats.add(flat_id)
+        if sent:
+            self.sent_flats.add(flat_id)
 
-        with open("sent_flats.txt", "a") as out_file:
-            out_file.write(flat_id)
-            out_file.write("\n")
+            with open("sent_flats.txt", "a") as out_file:
+                out_file.write(flat_id)
+                out_file.write("\n")
 
 
 

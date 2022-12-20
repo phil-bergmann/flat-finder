@@ -7,19 +7,17 @@ from slack_sdk.errors import SlackApiError
 
 class SlackAdapter(AbstractAdapter):
 
-    def __init__(self, channel: str):
+    def __init__(self):
         self.client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
-        self.channel = channel
+        self.channel = os.environ['SLACK_BOT_CHANNEL']
         self.username = "pythonboardingbot"
         self.icon_emoji = ":robot_face:"
 
-    def send_flat(self, flat: ParsedFlat):
+    def send_flat(self, flat: ParsedFlat) -> bool:
         message = f"*<{flat.link}|{flat.title}>*\n" \
                         + f"{flat.price}\n" \
                         + f"{flat.size}\n" \
                         + f"{flat.address}\n"
-
-        return
 
         try:
             response = self.client.chat_postMessage(
@@ -28,5 +26,7 @@ class SlackAdapter(AbstractAdapter):
                 mrkdwn=True,
                 icon_emoji=self.icon_emoji,
                 text=message)
+            return True
         except SlackApiError as e:
             print(f"Got an error: {e.response['error']}")
+            return False
