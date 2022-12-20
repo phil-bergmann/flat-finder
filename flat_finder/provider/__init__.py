@@ -1,0 +1,5 @@
+from .immonet import IMMONET_CONFIG
+from .immoscout24 import IMMOSCOUT_24_CONFIG
+from .immowelt import IMMOWELT_CONFIG
+
+ALL_CONFIGS = [IMMONET_CONFIG, IMMOSCOUT_24_CONFIG, IMMOWELT_CONFIG]
