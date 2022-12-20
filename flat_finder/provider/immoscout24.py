@@ -8,7 +8,8 @@ def process_flat(flat: ParsedFlat) -> ParsedFlat:
         size=flat.size,
         title=flat.title.replace("NEU", "").strip(),
         link=f'https://www.immobilienscout24.de{flat.link}',
-        address=flat.address
+        address=flat.address,
+        image=flat.image
     )
 
 

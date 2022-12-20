@@ -8,7 +8,8 @@ def process_flat(flat: ParsedFlat) -> ParsedFlat:
         size=flat.size,
         title=flat.title.replace("NEU", "").strip(),
         link=f'https://www.immonet.de/angebot/{flat.id.replace("selObject_", "")}',
-        address=flat.address.split(' • ')[len(flat.address.split(' • ')) - 1]
+        address=flat.address.split(' • ')[len(flat.address.split(' • ')) - 1],
+        image=flat.image
     )
 
 
