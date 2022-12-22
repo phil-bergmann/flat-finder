@@ -1,19 +1,19 @@
 import requests
 
-from flat_finder.models import AbstractDownloader, ProviderConfig
+from flat_finder.models import AbstractDownloader
 
 
 class SimpleDownloader(AbstractDownloader):
 
-    def __init__(self, config: ProviderConfig, url: str):
-        self.url = url
-        self.paginate_next_button_selector = config.paginate_next_button_selector
-        self.cookie_banner_button_selector = config.cookie_banner_button_selector
-
-    def get_html(self) -> [str]:
+    def get_html(self, url: str) -> [str]:
         try:
-            response = requests.get(self.url)
+            response = requests.get(url)
         except Exception as e:
             print(f"Error in simple downloader:\n{e}")
             return []
+
+        if response.status_code // 100 != 2:
+            print(f"Error in simple downloader: {response.status_code}")
+            return []
+
         return [response.text]

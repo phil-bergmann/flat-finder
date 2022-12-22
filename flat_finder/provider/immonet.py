@@ -17,7 +17,6 @@ IMMONET_CONFIG = ProviderConfig(
     name="IMMONET",
     base_url="https://www.immonet.de/",
     downloader=Downloader.SIMPLE,
-    headless=True,
     crawl_container='#result-list-stage .item',
     crawl_fields=CrawlFields(
         id='@id',

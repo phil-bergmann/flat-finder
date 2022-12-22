@@ -6,5 +6,5 @@ from . import ParsedFlat
 class AbstractDownloader(ABC):
 
     @abstractmethod
-    def get_html(self) -> [str]:
+    def get_html(self, url: str) -> [str]:
         raise NotImplementedError("Implement this!")

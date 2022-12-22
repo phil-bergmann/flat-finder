@@ -6,7 +6,7 @@ from typing import Optional
 from os import path
 
 from flat_finder.adapters import SlackAdapter, TelegramAdapter
-from flat_finder.downloader import SeleniumDownloader, ScrapingbeeDownloader, SimpleDownloader
+from flat_finder.downloader import ScrapingbeeDownloader, SimpleDownloader
 from flat_finder.parser import parse_html
 from flat_finder.provider import ALL_CONFIGS
 from flat_finder.models import ProviderConfig, Downloader, ParsedFlat, AbstractAdapter
@@ -80,9 +80,9 @@ class Processor:
     @staticmethod
     def _download(config: ProviderConfig, url: str) -> [str]:
         if config.downloader == Downloader.SCRAPING_BEE:
-            return ScrapingbeeDownloader(config, url).get_html()
+            return ScrapingbeeDownloader().get_html(url)
         elif config.downloader == Downloader.SIMPLE:
-            return SimpleDownloader(config, url).get_html()
+            return SimpleDownloader().get_html(url)
         else:
             print(f"[!] Downloader not supported: {config.downloader}")
             return []
