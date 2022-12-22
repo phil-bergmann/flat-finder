@@ -29,6 +29,7 @@ class ProviderConfig:
     paginate_next_button_selector: str
     crawl_container: str
     crawl_fields: CrawlFields
+    retries: int = 0
     cookie_banner_button_selector: Optional[str] = None
     process_flat: Callable[[ParsedFlat], ParsedFlat] = lambda x: x
 

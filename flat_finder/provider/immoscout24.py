@@ -40,5 +40,6 @@ IMMOSCOUT_24_CONFIG = ProviderConfig(
         address='.result-list-entry__map-link',
         image=""
     ),
-    process_flat=process_flat
+    process_flat=process_flat,
+    retries=3
 )

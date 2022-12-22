@@ -1,5 +1,5 @@
 FROM linuxserver/rdesktop:ubuntu-xfce
-COPY flat_finder .
+COPY ./flat_finder .
 COPY main.py .
 COPY poetry.lock .
 COPY pyproject.toml .

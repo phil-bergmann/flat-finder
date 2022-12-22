@@ -5,7 +5,7 @@ import time
 from typing import Optional
 from os import path
 
-from flat_finder.adapters import SlackAdapter
+from flat_finder.adapters import SlackAdapter, TelegramAdapter
 from flat_finder.downloader import SeleniumDownloader, ScrapingbeeDownloader
 from flat_finder.parser import parse_html
 from flat_finder.provider import ALL_CONFIGS
@@ -16,14 +16,16 @@ class Processor:
 
     def __init__(self, config_path: str):
         self.urls = json.loads(os.environ['URLS'])
-        self.adapter: AbstractAdapter = SlackAdapter()
+        self.adapters: [AbstractAdapter] = [SlackAdapter(), TelegramAdapter()]
 
         self.refresh_every_minutes = int(os.environ['REFRESH_EVERY_MINUTES'])
 
+        self.sent_flats_path = f"{config_path}/sent_flats.txt"
+
         self.sent_flats = set()
 
-        if path.exists(f"{config_path}/sent_flats.txt"):
-            with open(f"{config_path}/sent_flats.txt", "r") as in_file:
+        if path.exists(self.sent_flats_path):
+            with open(self.sent_flats_path, "r") as in_file:
                 for l in in_file.readlines():
                     self.sent_flats.add(l.strip())
 
@@ -47,9 +49,12 @@ class Processor:
                 print(f"[!] Skipping as no config was found: {u}")
                 continue
 
-            htmls = Processor._download(config, u)
+            flats = []
+            calls = 0
 
-            flats = [f for h in htmls for f in parse_html(config, h)]
+            while calls <= config.retries and len(flats) == 0:
+                htmls = Processor._download(config, u)
+                flats = [f for h in htmls for f in parse_html(config, h)]
 
             print(f"{config.name}: {len(flats)} flats")
 
@@ -80,12 +85,14 @@ class Processor:
         if flat_id in self.sent_flats:
             return
 
-        sent = self.adapter.send_flat(flat)
+        sent = False
+        for a in self.adapters:
+            sent |= a.send_flat(flat)
 
         if sent:
             self.sent_flats.add(flat_id)
 
-            with open("sent_flats.txt", "a") as out_file:
+            with open(self.sent_flats_path, "a") as out_file:
                 out_file.write(flat_id)
                 out_file.write("\n")
 
