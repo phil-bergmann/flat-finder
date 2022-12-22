@@ -16,7 +16,7 @@ def process_flat(flat: ParsedFlat) -> ParsedFlat:
 IMMONET_CONFIG = ProviderConfig(
     name="IMMONET",
     base_url="https://www.immonet.de/",
-    downloader=Downloader.SELENIUM,
+    downloader=Downloader.SIMPLE,
     paginate_next_button_selector="""
         var aTags = document.getElementsByClassName("col-sm-3 col-xs-1 pull-right text-right");
         

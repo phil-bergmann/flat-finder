@@ -8,6 +8,7 @@ from flat_finder.models import ParsedFlat
 class Downloader(Enum):
     SELENIUM = 1
     SCRAPING_BEE = 2
+    SIMPLE = 3
 
 
 @dataclass(frozen=True)

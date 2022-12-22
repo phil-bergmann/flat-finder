@@ -3,7 +3,7 @@ from flat_finder.models import ProviderConfig, Downloader, CrawlFields
 IMMOWELT_CONFIG = ProviderConfig(
     name="IMMOWELT",
     base_url="https://www.immowelt.de/",
-    downloader=Downloader.SELENIUM,
+    downloader=Downloader.SIMPLE,
     paginate_next_button_selector="""
         var aTags = document.getElementsByClassName("navNumberButton-d264f");
         var searchText = "{i}";

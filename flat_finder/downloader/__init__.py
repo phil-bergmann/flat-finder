@@ -1,2 +1,3 @@
 from .selenium_downloader import SeleniumDownloader
 from .scraping_bee_downloader import ScrapingbeeDownloader
+from .simple_downloader import SimpleDownloader
