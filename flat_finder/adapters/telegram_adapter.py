@@ -19,4 +19,8 @@ class TelegramAdapter(AbstractAdapter):
 
         response = requests.post(f'https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&text={message}&parse_mode=Markdown')
 
-        return response.status_code // 100 == 2
+        if response.status_code // 100 != 2:
+            print(f"Error sending to Telegram: {response.status_code}")
+            return False
+
+        return True

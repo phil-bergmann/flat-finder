@@ -26,7 +26,12 @@ class SlackAdapter(AbstractAdapter):
                 mrkdwn=True,
                 icon_emoji=self.icon_emoji,
                 text=message)
-            return True
         except SlackApiError as e:
             print(f"Got an error: {e.response['error']}")
             return False
+
+        if response.status_code // 100 != 2:
+            print(f"Error sending to Slack: {response.status_code}")
+            return False
+
+        return True
