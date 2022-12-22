@@ -35,7 +35,7 @@ IMMONET_CONFIG = ProviderConfig(
         return true;
         """,
     cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
-    headless=False,
+    headless=True,
     crawl_container='#result-list-stage .item',
     crawl_fields=CrawlFields(
         id='@id',

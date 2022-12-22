@@ -17,7 +17,7 @@ IMMOWELT_CONFIG = ProviderConfig(
         return false;
         """,
     cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
-    headless=False,
+    headless=True,
     crawl_container="div[class^='EstateItem-']",
     crawl_fields=CrawlFields(
         id='a@id',

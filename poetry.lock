@@ -381,6 +381,17 @@ requests = ">=1.0.0"
 six = "*"
 
 [[package]]
+name = "scrapingbee"
+version = "1.1.8"
+description = "ScrapingBee Python SDK"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "scrapy"
 version = "2.7.1"
 description = "A high-level Web Crawling and Web Scraping framework"
@@ -654,7 +665,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "fb033820e74e98f089083a4f601a4fc8f82cebaa2c94e7034c5df1a6b7c5e2ff"
+content-hash = "e6dea0f99b0c59881f498cc820240c9e00a7b53876649b07b7a851f43578c8b8"
 
 [metadata.files]
 async-generator = [
@@ -971,6 +982,10 @@ requests = [
 requests-file = [
     {file = "requests-file-1.5.1.tar.gz", hash = "sha256:07d74208d3389d01c38ab89ef403af0cfec63957d53a0081d8eca738d0247d8e"},
     {file = "requests_file-1.5.1-py2.py3-none-any.whl", hash = "sha256:dfe5dae75c12481f68ba353183c53a65e6044c923e64c24b2209f6c7570ca953"},
+]
+scrapingbee = [
+    {file = "scrapingbee-1.1.8-py3-none-any.whl", hash = "sha256:84368defdd862ae72479ca7fbc3fd8d613dd12f62e27e4a5b837be2254fd28fe"},
+    {file = "scrapingbee-1.1.8.tar.gz", hash = "sha256:3acdbe561caea8db0f66e612e32cc05be369685b15ee023891960ef646c2bad6"},
 ]
 scrapy = [
     {file = "Scrapy-2.7.1-py2.py3-none-any.whl", hash = "sha256:ba5c99a0a6bc5d51708fb1919843cad650711d2baef3124e4ac3f2e1759f4ca6"},

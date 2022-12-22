@@ -6,7 +6,7 @@ from typing import Optional
 from os import path
 
 from flat_finder.adapters import SlackAdapter
-from flat_finder.downloader import SeleniumDownloader
+from flat_finder.downloader import SeleniumDownloader, ScrapingbeeDownloader
 from flat_finder.parser import parse_html
 from flat_finder.provider import ALL_CONFIGS
 from flat_finder.models import ProviderConfig, Downloader, ParsedFlat, AbstractAdapter
@@ -14,7 +14,7 @@ from flat_finder.models import ProviderConfig, Downloader, ParsedFlat, AbstractA
 
 class Processor:
 
-    def __init__(self):
+    def __init__(self, config_path: str):
         self.urls = json.loads(os.environ['URLS'])
         self.adapter: AbstractAdapter = SlackAdapter()
 
@@ -22,8 +22,8 @@ class Processor:
 
         self.sent_flats = set()
 
-        if path.exists("sent_flats.txt"):
-            with open("sent_flats.txt", "r") as in_file:
+        if path.exists(f"{config_path}/sent_flats.txt"):
+            with open(f"{config_path}/sent_flats.txt", "r") as in_file:
                 for l in in_file.readlines():
                     self.sent_flats.add(l.strip())
 
@@ -68,6 +68,8 @@ class Processor:
     def _download(config: ProviderConfig, url: str) -> [str]:
         if config.downloader == Downloader.SELENIUM:
             return SeleniumDownloader(config, url).get_html()
+        elif config.downloader == Downloader.SCRAPING_BEE:
+            return ScrapingbeeDownloader(config, url).get_html()
         else:
             print(f"[!] Downloader not supported: {config.downloader}")
             return []

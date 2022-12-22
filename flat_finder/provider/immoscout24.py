@@ -16,7 +16,7 @@ def process_flat(flat: ParsedFlat) -> ParsedFlat:
 IMMOSCOUT_24_CONFIG = ProviderConfig(
     name="IMMOSCOUT_24",
     base_url="https://www.immobilienscout24.de/",
-    downloader=Downloader.SELENIUM,
+    downloader=Downloader.SCRAPING_BEE,
     paginate_next_button_selector="""
         var element = document.querySelector("ul.reactPagination li[class='p-items p-next vertical-center-container'] a");
         
@@ -28,9 +28,9 @@ IMMOSCOUT_24_CONFIG = ProviderConfig(
         
         return true;
         """,
-    cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
+    cookie_banner_button_selector="""return document.querySelector('#usercentrics-root')?.shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
     headless=False,
-    crawl_container="#resultListItems li[class='result-list__listing'] article",
+    crawl_container="#resultListItems > li[class='result-list__listing'] article",
     crawl_fields=CrawlFields(
         id='@data-obid',
         price='.result-list-entry__criteria .grid-item:first-child dd',
