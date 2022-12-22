@@ -16,9 +16,16 @@ class Processor:
 
     def __init__(self, config_path: str):
         self.urls = json.loads(os.environ['URLS'])
-        self.adapters: [AbstractAdapter] = [SlackAdapter(), TelegramAdapter()]
+        self.adapters: [AbstractAdapter] = []
+
+        if os.environ['TELEGRAM_BOT_ACTIVE']:
+            self.adapters.append(TelegramAdapter())
+
+        if os.environ['SLACK_BOT_ACTIVE']:
+            self.adapters.append(SlackAdapter())
 
         self.refresh_every_minutes = int(os.environ['REFRESH_EVERY_MINUTES'])
+        self.retries = int(os.environ['RETRIES'])
 
         self.sent_flats_path = f"{config_path}/sent_flats.txt"
 
@@ -52,9 +59,10 @@ class Processor:
             flats = []
             calls = 0
 
-            while calls <= config.retries and len(flats) == 0:
+            while calls <= self.retries and len(flats) == 0:
                 htmls = Processor._download(config, u)
                 flats = [f for h in htmls for f in parse_html(config, h)]
+                calls += 1
 
             print(f"{config.name}: {len(flats)} flats")
 
@@ -71,9 +79,7 @@ class Processor:
 
     @staticmethod
     def _download(config: ProviderConfig, url: str) -> [str]:
-        if config.downloader == Downloader.SELENIUM:
-            return SeleniumDownloader(config, url).get_html()
-        elif config.downloader == Downloader.SCRAPING_BEE:
+        if config.downloader == Downloader.SCRAPING_BEE:
             return ScrapingbeeDownloader(config, url).get_html()
         elif config.downloader == Downloader.SIMPLE:
             return SimpleDownloader(config, url).get_html()
@@ -97,10 +103,3 @@ class Processor:
             with open(self.sent_flats_path, "a") as out_file:
                 out_file.write(flat_id)
                 out_file.write("\n")
-
-
-
-
-
-
-

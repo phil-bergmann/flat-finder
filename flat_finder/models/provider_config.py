@@ -6,9 +6,8 @@ from flat_finder.models import ParsedFlat
 
 
 class Downloader(Enum):
-    SELENIUM = 1
+    SIMPLE = 1
     SCRAPING_BEE = 2
-    SIMPLE = 3
 
 
 @dataclass(frozen=True)
@@ -26,12 +25,8 @@ class ProviderConfig:
     name: str
     base_url: str
     downloader: Downloader
-    headless: bool
-    paginate_next_button_selector: str
     crawl_container: str
     crawl_fields: CrawlFields
-    retries: int = 0
-    cookie_banner_button_selector: Optional[str] = None
     process_flat: Callable[[ParsedFlat], ParsedFlat] = lambda x: x
 
 

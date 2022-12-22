@@ -21,14 +21,13 @@ class ScrapingbeeDownloader(AbstractDownloader):
     def get_html(self) -> [str]:
         encoded = quote(self.url, safe='')
         try:
-            response = requests.get(f"https://app.scrapingbee.com/api/v1/?api_key={self.token}&stealth_proxy=True&render_js=True&url={encoded}", timeout=60)
+            response = requests.get(f"https://app.scrapingbee.com/api/v1/?api_key={self.token}&stealth_proxy=True&render_js=True&url={encoded}", timeout=120)
+            #response = self.client.get(self.url, params={
+            #    'render_js': 'True',
+            #    'stealth_proxy': 'True'
+            #})
         except Exception as e:
             print(f"Error connecting to scrapingbee:\n{e}")
             return []
-
-        #response = self.client.get(self.url, params={
-        #    'render_js': 'True',
-        #    'stealth_proxy': 'True'
-        #})
 
         return [response.text]

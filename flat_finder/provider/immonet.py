@@ -17,24 +17,6 @@ IMMONET_CONFIG = ProviderConfig(
     name="IMMONET",
     base_url="https://www.immonet.de/",
     downloader=Downloader.SIMPLE,
-    paginate_next_button_selector="""
-        var aTags = document.getElementsByClassName("col-sm-3 col-xs-1 pull-right text-right");
-        
-        if (aTags.length == 0) {
-            return false;
-        }
-        
-        href = aTags[0].href
-        
-        if (!href) {
-            return false;
-        }
-
-        window.location = href;
-        
-        return true;
-        """,
-    cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
     headless=True,
     crawl_container='#result-list-stage .item',
     crawl_fields=CrawlFields(

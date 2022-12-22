@@ -4,20 +4,6 @@ IMMOWELT_CONFIG = ProviderConfig(
     name="IMMOWELT",
     base_url="https://www.immowelt.de/",
     downloader=Downloader.SIMPLE,
-    paginate_next_button_selector="""
-        var aTags = document.getElementsByClassName("navNumberButton-d264f");
-        var searchText = "{i}";
-
-        for (var i = 0; i < aTags.length; i++) {
-            if (aTags[i].textContent == searchText) {
-                aTags[i].click();
-                return true;
-            }
-        }
-        return false;
-        """,
-    cookie_banner_button_selector="""return document.querySelector('#usercentrics-root').shadowRoot.querySelector("button[data-testid='uc-accept-all-button']")""",
-    headless=True,
     crawl_container="div[class^='EstateItem-']",
     crawl_fields=CrawlFields(
         id='a@id',

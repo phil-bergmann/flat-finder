@@ -9,7 +9,7 @@ class TelegramAdapter(AbstractAdapter):
 
     def __init__(self):
         self.token = os.environ['TELEGRAM_BOT_TOKEN']
-        self.chat_id = os.environ['TELEGRAM_CHAT_ID']
+        self.chat_id = os.environ['TELEGRAM_BOT_CHAT_ID']
 
     def send_flat(self, flat: ParsedFlat) -> bool:
         message = f"[{flat.title}]({flat.link})\n" \
