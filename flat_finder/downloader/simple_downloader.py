@@ -11,5 +11,9 @@ class SimpleDownloader(AbstractDownloader):
         self.cookie_banner_button_selector = config.cookie_banner_button_selector
 
     def get_html(self) -> [str]:
-        response = requests.get(self.url)
+        try:
+            response = requests.get(self.url)
+        except Exception as e:
+            print(f"Error in simple downloader:\n{e}")
+            return []
         return [response.text]
