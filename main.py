@@ -6,7 +6,7 @@ import sys
 import os
 
 
-def soup():
+def start():
     parser = argparse.ArgumentParser(
         prog='ProgramName',
         description='What the program does',
@@ -19,4 +19,4 @@ def soup():
     p.run()
 
 if __name__ == "__main__":
-    soup()
+    start()
